@@ -1,0 +1,75 @@
+# Compiled output
+/frontend-funds/dist
+/frontend-funds/tmp
+/frontend-funds/out-tsc
+/frontend-funds/bazel-out
+/funds-backend/dist
+
+# Dependencies
+/frontend-funds/node_modules
+/funds-backend/node_modules
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+/frontend-funds/.vscode/*
+/frontend-funds/!.vscode/settings.json
+/frontend-funds/!.vscode/tasks.json
+/frontend-funds/!.vscode/launch.json
+/frontend-funds/!.vscode/extensions.json
+/frontend-funds/.history/*
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+logs
+/backend/*.log
+/backend/npm-debug.log*
+/backend/pnpm-debug.log*
+/backend/yarn-debug.log*
+/backend/yarn-error.log*
+/backend/lerna-debug.log*
+
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Tests
+/frontend-funds/coverage
+/funds-backend/coverage
+/funds-backend/.nyc_output
+
+# Angular specific
+/frontend-funds/.angular/cache
+/frontend-funds.sass-cache/
+/frontend-funds/connect.lock
+/frontend-funds/libpeerconnection.log
+/frontend-funds/testem.log
+/frontend-funds/typings
+
+# Nest.js specific
+/backend/.nyc_output
+
+# Miscellaneous
+*.swp
+*.swo

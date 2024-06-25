@@ -3,6 +3,7 @@ import { DynamoDBService } from '../../infrastructure/database/dynamodb.service'
 import { Fund } from './entities/fund.entity';
 import { CreateFundDto } from './dto/create-fund.dto';
 import { PutItemCommand, GetItemCommand, ScanCommand } from '@aws-sdk/client-dynamodb';
+import {  randomUUID } from "crypto";
 
 @Injectable()
 export class FundsService {
@@ -11,8 +12,11 @@ export class FundsService {
   constructor(private dynamoDBService: DynamoDBService) {}
 
   async createFund(createFundDto: CreateFundDto): Promise<Fund> {
+
+    const newFundId = randomUUID(); 
+
     const fund = new Fund(
-      createFundDto.id,
+      newFundId,
       createFundDto.name,
       createFundDto.minimumAmount,
       createFundDto.category
@@ -28,11 +32,11 @@ export class FundsService {
     return fund;
   }
 
-  async getFundById(id: number): Promise<Fund> {
+  async getFundById(id: string): Promise<Fund> {
     const client = this.dynamoDBService.getClient();
     const command = new GetItemCommand({
       TableName: this.tableName,
-      Key: { id: { N: id.toString() } },
+      Key: { id: { S: id.toString() } },
     });
 
     const result = await client.send(command);
@@ -52,7 +56,7 @@ export class FundsService {
 
   private mapToDbItem(fund: Fund): Record<string, any> {
     return {
-      id: { N: fund.id.toString() },
+      id: { S: fund.id.toString() },
       name: { S: fund.name },
       minimumAmount: { N: fund.minimumAmount.toString() },
       category: { S: fund.category },
@@ -61,7 +65,7 @@ export class FundsService {
 
   private mapToDomain(item: Record<string, any>): Fund {
     return new Fund(
-      parseInt(item.id.N),
+      item.id.S,
       item.name.S,
       parseInt(item.minimumAmount.N),
       item.category.S

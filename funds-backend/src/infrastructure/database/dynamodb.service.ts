@@ -8,6 +8,8 @@ export class DynamoDBService {
   private client: DynamoDBClient;
 
   constructor(private configService: ConfigService) {
+
+    
     this.client = new DynamoDBClient({
       region: this.configService.get<string>('aws.region'),
       credentials: {

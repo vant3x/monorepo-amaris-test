@@ -1,9 +1,9 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsUUID , IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateFundDto {
   @IsNotEmpty()
-  @IsNumber()
-  id: number;
+  @IsUUID()
+  id: string;
 
   @IsNotEmpty()
   @IsString()

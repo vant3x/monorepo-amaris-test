@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'DynamoDB tables for Funds, Subscriptions, and Transactions'
+
+Resources:
+  FundsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Funds
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  SubscriptionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Subscriptions
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: userId
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: UserIdIndex
+          KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      BillingMode: PAY_PER_REQUEST
+
+  TransactionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Transactions
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: userId
+          AttributeType: S
+        - AttributeName: createdAt
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      GlobalSecondaryIndexes:
+        - IndexName: UserIdCreatedAtIndex
+          KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+            - AttributeName: createdAt
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+      BillingMode: PAY_PER_REQUEST
+
+Outputs:
+  FundsTableName:
+    Description: 'Name of the Funds DynamoDB table'
+    Value: !Ref FundsTable
+    Export:
+      Name: FundsTableName
+  SubscriptionsTableName:
+    Description: 'Name of the Subscriptions DynamoDB table'
+    Value: !Ref SubscriptionsTable
+    Export:
+      Name: SubscriptionsTableName
+  TransactionsTableName:
+    Description: 'Name of the Transactions DynamoDB table'
+    Value: !Ref TransactionsTable
+    Export:
+      Name: TransactionsTableName

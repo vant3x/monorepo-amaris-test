@@ -11,14 +11,21 @@ import { DatabaseModule } from './infrastructure/database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 
-
 @Module({
-  imports: [    ConfigModule.forRoot({
-    load: [configuration],
-    envFilePath: '.env', 
-    isGlobal: true,
-  }),
-  FundsModule, SharedModule,  SubscriptionsModule, TransactionsModule, NotificationsModule, AccountModule, DatabaseModule],
+  imports: [
+    ConfigModule.forRoot({
+      load: [configuration],
+      envFilePath: '.env',
+      isGlobal: true,
+    }),
+    SharedModule,
+    FundsModule,
+    SubscriptionsModule,
+    TransactionsModule,
+    NotificationsModule,
+    AccountModule,
+    DatabaseModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -9,6 +9,9 @@
 /frontend-funds/node_modules
 /funds-backend/node_modules
 
+#vars
+/funds-backend/.env
+
 # IDEs and editors
 .idea/
 .project

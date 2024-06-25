@@ -1,0 +1,45 @@
+<div class="container mx-auto px-4">
+    <h1 class="text-2xl font-bold mb-4">Lista de Fondos</h1>
+    <p>Balance actual:  <span> {{ userBalance | currency:'COP':'symbol-narrow':'1.0-0' }} </span></p>
+    
+    <ng-container *ngIf="userId; else noUser">
+      <div class="flex flex-col md:flex-row gap-4">
+        <!-- Columna izquierda con las tarjetas de fondos -->
+        <div class="w-full md:w-3/4">
+          <div *ngIf="funds.length > 0; else noFunds" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <app-fund-detail
+              *ngFor="let fund of funds"
+              [fund]="fund"
+              [userId]="userId"
+              (subscriptionChanged)="loadSubscriptions()"
+            ></app-fund-detail>
+          </div>
+          
+          <ng-template #noFunds>
+            <p class="text-center text-gray-600">No hay fondos disponibles en este momento.</p>
+          </ng-template>
+        </div>
+        
+        <!-- Columna derecha con las últimas transacciones -->
+        <div class="w-full md:w-1/4">
+            <h2 class="text-xl font-semibold mb-2">Últimas Transacciones </h2>
+            <a [routerLink]="['/transactions']" class="text-underline color-blue-500">Ver Todas </a>
+            <div *ngIf="latestTransactions.length > 0; else noTransactions" class="space-y-2">
+              <div *ngFor="let transaction of transactions" class="bg-white shadow rounded-lg p-3">
+                <p class="text-sm text-gray-600">Fondo: {{ transaction.fundName }}</p>
+                <p class="font-semibold">{{ transaction.type === 'subscription' ? 'Suscripción' : 'Cancelación' }}</p>
+                <p class="text-sm text-gray-600">Monto: {{ transaction.amount | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
+                <p class="text-sm text-gray-600">Fecha: {{ transaction.createdAt | date:'short' }}</p>
+              </div>
+            </div>
+            <ng-template #noTransactions>
+              <p class="text-center text-gray-600">No hay transacciones recientes.</p>
+            </ng-template>
+          </div>
+      </div>
+    </ng-container>
+    
+    <ng-template #noUser>
+      <p class="text-center text-red-500">Por favor, inicia sesión para ver los fondos disponibles.</p>
+    </ng-template>
+  </div>

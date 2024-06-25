@@ -2,7 +2,6 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: 'DynamoDB tables, Frontend, and Backend deployment'
 
 Resources:
-  # Existing DynamoDB tables...
 
   # S3 Bucket for Frontend
   FrontendBucket:

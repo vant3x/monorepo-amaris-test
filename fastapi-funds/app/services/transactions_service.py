@@ -16,11 +16,11 @@ class TransactionService:
         
         item = {
             'id': {'S': transaction_id},
-            'userId': {'S': transaction.user_id},
-            'fundId': {'S': transaction.fund_id},
+            'user_id': {'S': transaction.user_id},
+            'fund_id': {'S': transaction.fund_id},
             'type': {'S': transaction.type},
             'amount': {'N': str(transaction.amount)},
-            'createdAt': {'S': created_at.isoformat()}
+            'created_at': {'S': created_at.isoformat()}
         }
 
         await db.put_item(
@@ -49,11 +49,11 @@ class TransactionService:
         for item in response.get('Items', []):
             transaction_data = {
                 'id': item['id']['S'],
-                'user_id': item['userId']['S'],
-                'fund_id': item['fundId']['S'],
+                'user_id': item['user_id']['S'],
+                'fund_id': item['fund_i d']['S'],
                 'type': item['type']['S'],
                 'amount': float(item['amount']['N']),
-                'created_at': datetime.fromisoformat(item['createdAt']['S']),
+                'created_at': datetime.fromisoformat(item['created_at']['S']),
             }
             if 'endDate' in item:
                 transaction_data['end_date'] = datetime.fromisoformat(item['endDate']['S'])

@@ -6,15 +6,15 @@ from app.api.v1.endpoints import funds, subscriptions, notifications, transactio
 app = FastAPI(title="Funds API")
 
 origins = [
-    "http://localhost:4200",  # Your Angular app's URL
+    "http://localhost:4200",
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
+    allow_methods=["*"], 
+    allow_headers=["*"],  
 )
 
 app.include_router(funds.router, prefix="/api/v1/funds", tags=["funds"])

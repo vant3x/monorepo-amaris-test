@@ -4,6 +4,6 @@ export interface Transaction {
     fundId: string;
     type: 'subscription' | 'cancellation';
     amount: number;
-    createdAt: Date;
+    created_at: Date;
     endDate?: Date; 
   }

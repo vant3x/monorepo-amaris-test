@@ -14,7 +14,7 @@ import { UserIdService } from 'src/app/core/services/user.service';
 })
 export class TransactionHistoryComponent implements AfterViewInit {
   
-  displayedColumns: string[] = ['id', 'type', 'fundId', 'amount', 'createdAt'];
+  displayedColumns: string[] = ['id', 'type', 'fundId', 'amount', 'created_at'];
   dataSource = new MatTableDataSource<Transaction>([]);
   userId: string = '';
   funds: Fund[] = []; 

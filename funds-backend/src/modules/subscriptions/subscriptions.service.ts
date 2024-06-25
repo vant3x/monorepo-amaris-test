@@ -76,12 +76,12 @@ export class SubscriptionsService {
     this.initialBalance -= createSubscriptionDto.amount;
 
     await this.transactionsService.createTransaction({
-      userId: subscription.userId,
-      fundId: subscription.fundId,
+      user_id: subscription.user_id,
+      fund_id: subscription.fund_id,
       type: 'subscription',
       amount: subscription.amount,
     });
-    await this.notificationsService.sendSMS('+57'+subscription.notificationContact, `Te acabas de suscribir a ${fund.name}`)
+    await this.notificationsService.sendSMS('+57'+subscription.notification_contact, `Te acabas de suscribir a ${fund.name}`)
 
     return subscription;
   }
@@ -106,8 +106,8 @@ export class SubscriptionsService {
     const endDate = new Date();
     const canceledSubscription =
       await this.transactionsService.createTransaction({
-        userId: subscription.userId,
-        fundId: subscription.fundId,
+        user_id: subscription.user_id,
+        fund_id: subscription.fund_id,
         type: 'cancellation',
         amount: subscription.amount,
         endDate,
@@ -147,7 +147,7 @@ export class SubscriptionsService {
       fund_id: { S: subscription.fund_id.toString() },
       amount: { N: subscription.amount.toString() },
       status: { S: subscription.status },
-      createdAt: { S: subscription.created_at.toISOString() },
+      created_at: { S: subscription.created_at.toISOString() },
       notification_type: { S: subscription.notification_type },
       notificationContact: { S: subscription.notification_contact },
       ...(subscription.endDate && { endDate: { S: subscription.endDate.toISOString() } }),
@@ -161,7 +161,7 @@ export class SubscriptionsService {
       item.fundId.S,
       parseInt(item.amount.N),
       item.status.S as 'active' | 'canceled',
-      new Date(item.createdAt.S),
+      new Date(item.created_at.S),
       item.notification_type.S as 'sms' | 'email',
       item.notificationContact.S,
       item.endDate ? new Date(item.endDate.S) : undefined

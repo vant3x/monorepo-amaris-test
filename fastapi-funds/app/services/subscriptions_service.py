@@ -1,3 +1,4 @@
+from typing import Optional
 from uuid import uuid4
 from fastapi import HTTPException, Depends
 from app.models.subscription_model import Subscription
@@ -63,7 +64,7 @@ class SubscriptionService:
 
     @staticmethod
     async def cancel_subscription(subscription_id: str, db=Depends(get_db)) -> Subscription:
-        subscription = await SubscriptionService.get_subscription_by_id(subscription_id, db)
+        subscription = await SubscriptionService.get_subscriptions_by_id(subscription_id, db)
         if not subscription:
             raise HTTPException(status_code=404, detail=f"Subscription with ID {subscription_id} not found")
         
@@ -100,19 +101,19 @@ class SubscriptionService:
     async def get_subscriptions_by_user(user_id: str, db=Depends(get_db)) -> list[Subscription]:
         response = await db.scan(
             TableName=SubscriptionService.TABLE_NAME,
-            FilterExpression="userId = :userId",
-            ExpressionAttributeValues={":userId": {"S": user_id}}
+            FilterExpression="user_id = :user_id",
+            ExpressionAttributeValues={":user_id": {"S": user_id}}
         )
     
         subscriptions = []
         for item in response.get('Items', []):
             subscription_data = {
                 'id': item['id']['S'],
-                'user_id': item['userId']['S'],
-                'fund_id': item['fundId']['S'],
+                'user_id': item['user_id']['S'],
+                'fund_id': item['fund_id']['S'],
                 'amount': float(item['amount']['N']),
                 'status': item['status']['S'],
-                'created_at': datetime.fromisoformat(item['createdAt']['S']),
+                'created_at': datetime.fromisoformat(item['created_at']['S']),
                 'notification_type': item['notification_type']['S'],
                 'notification_contact': item['notification_contact']['S'],
             }
@@ -122,3 +123,29 @@ class SubscriptionService:
             subscriptions.append(Subscription(**subscription_data))
         
         return subscriptions
+    
+    @staticmethod
+    async def get_subscription_by_id(subscription_id: str, db=Depends(get_db)) -> Optional[Subscription]:
+        response = await db.get_item(
+            TableName=SubscriptionService.TABLE_NAME,
+            Key={'id': {'S': subscription_id}}
+        )
+        
+        item = response.get('Item')
+        if not item:
+            return None
+        
+        subscription_data = {
+            'id': item['id']['S'],
+            'user_id': item['user_id']['S'],
+            'fund_id': item['fund_id']['S'],
+            'amount': float(item['amount']['N']),
+            'status': item['status']['S'],
+            'created_at': datetime.fromisoformat(item['created_at']['S']),
+            'notification_type': item['notification_type']['S'],
+            'notification_contact': item['notification_contact']['S'],
+        }
+        if 'endDate' in item:
+            subscription_data['end_date'] = datetime.fromisoformat(item['endDate']['S'])
+        
+        return Subscription(**subscription_data)

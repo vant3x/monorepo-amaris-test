@@ -15,7 +15,7 @@ export class TransactionsService {
     return this.http.get<Transaction[]>(`${this.apiUrl}/user/${userId}`);
   }
 
-  createTransaction(transaction: Omit<Transaction, 'id' | 'createdAt'>): Observable<Transaction> {
+  createTransaction(transaction: Omit<Transaction, 'id' | 'created_at'>): Observable<Transaction> {
     return this.http.post<Transaction>(`${this.apiUrl}/transactions`, transaction);
   }
 }

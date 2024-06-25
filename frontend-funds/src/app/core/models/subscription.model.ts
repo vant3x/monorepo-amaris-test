@@ -4,6 +4,6 @@ export interface Subscription {
   fund_id: string;
   amount: number;
   status: 'active' | 'canceled';
-  createdAt: Date;
+  created_at: Date;
   endDate?: Date;
 }

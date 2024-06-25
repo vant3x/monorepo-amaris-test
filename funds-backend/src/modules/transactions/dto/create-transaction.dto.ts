@@ -14,5 +14,5 @@ export class CreateTransactionsDto {
     @IsNumber()
     amount: number;
 
-    createdAt: Date;
+    created_at: Date;
 }

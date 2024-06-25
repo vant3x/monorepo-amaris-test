@@ -39,10 +39,10 @@ x    <ng-container matColumnDef="type">
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="createdAt">
+    <ng-container matColumnDef="created_at">
       <th mat-header-cell *matHeaderCellDef>Fecha</th>
       <td mat-cell *matCellDef="let transaction">
-        {{transaction.createdAt | date:'short'}}
+        {{transaction.created_at | date:'short'}}
       </td>
     </ng-container>
 

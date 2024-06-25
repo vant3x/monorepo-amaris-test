@@ -29,7 +29,7 @@
                 <p class="text-sm text-gray-600">Fondo: {{ transaction.fundName }}</p>
                 <p class="font-semibold">{{ transaction.type === 'subscription' ? 'Suscripción' : 'Cancelación' }}</p>
                 <p class="text-sm text-gray-600">Monto: {{ transaction.amount | currency:'COP':'symbol-narrow':'1.0-0' }}</p>
-                <p class="text-sm text-gray-600">Fecha: {{ transaction.createdAt | date:'short' }}</p>
+                <p class="text-sm text-gray-600">Fecha: {{ transaction.created_at | date:'short' }}</p>
               </div>
             </div>
             <ng-template #noTransactions>

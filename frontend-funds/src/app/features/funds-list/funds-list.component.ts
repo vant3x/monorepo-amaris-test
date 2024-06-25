@@ -46,8 +46,8 @@ export class FundsListComponent implements OnInit {
       ({ funds, subscriptions, transactions }) => {
         this.funds = funds.map(fund => ({
           ...fund,
-          isSubscribed: subscriptions.some(sub => sub.fundId === fund.id && sub.status === 'active'),
-          subscription: subscriptions.find(sub => sub.fundId === fund.id && sub.status === 'active')
+          isSubscribed: subscriptions.some(sub => sub.fund_id === fund.id && sub.status === 'active'),
+          subscription: subscriptions.find(sub => sub.fund_id === fund.id && sub.status === 'active')
         }));        this.subscriptions = subscriptions;
         this.transactions = transactions.map(transaction => ({
           ...transaction,

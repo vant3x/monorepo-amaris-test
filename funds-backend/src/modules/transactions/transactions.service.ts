@@ -10,11 +10,11 @@ export class TransactionsService {
 
   constructor(private dynamoDBService: DynamoDBService) {}
 
-  async createTransaction(transaction: Omit<Transaction, 'id' | 'createdAt'> ): Promise<Transaction> {
+  async createTransaction(transaction: Omit<Transaction, 'id' | 'created_at'> ): Promise<Transaction> {
     const newTransaction = new Transaction(
     `TRA-${randomUUID()}`,
-      transaction.userId,
-      transaction.fundId,
+      transaction.user_id,
+      transaction.fund_id,
       transaction.type,
       transaction.amount,
       new Date()
@@ -45,22 +45,22 @@ export class TransactionsService {
   private mapToDbItem(transaction: Transaction): Record<string, any> {
     return {
       id: { S: transaction.id },
-      userId: { S: transaction.userId },
-      fundId: { S: transaction.fundId },
+      userId: { S: transaction.user_id },
+      fundId: { S: transaction.fund_id },
       type: { S: transaction.type },
       amount: { N: transaction.amount.toString() },
-      createdAt: { S: transaction.createdAt.toISOString() },
+      created_at: { S: transaction.created_at.toISOString() },
     };
   }
 
   private mapToDomain(item: Record<string, any>): Transaction {
     return new Transaction(
       item.id.S,
-      item.userId.S,
-      item.fundId.S,
+      item.user_id.S,
+      item.fund_id.S,
       item.type.S as 'subscription' | 'cancellation',
       parseInt(item.amount.N),
-      new Date(item.createdAt.S)
+      new Date(item.created_at.S)
     );
   }
 }

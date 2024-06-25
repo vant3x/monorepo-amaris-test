@@ -8,7 +8,7 @@ import { Transaction } from '../models/transaction.model';
   providedIn: 'root'
 })
 export class TransactionsService {
-  private apiUrl = 'http://localhost:3000/api/v1/transactions';
+  private apiUrl = 'http://localhost:8000/api/v1/transactions';
   constructor(private http: HttpClient) { }
 
   getTransactions(userId: string): Observable<Transaction[]> {

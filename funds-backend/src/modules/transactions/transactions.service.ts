@@ -1,4 +1,3 @@
-// transactions.service.ts
 import { Injectable } from '@nestjs/common';
 import { DynamoDBService } from '../../infrastructure/database/dynamodb.service';
 import { Transaction } from './entities/transaction.entity';

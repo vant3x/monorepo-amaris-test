@@ -10,6 +10,7 @@ import { HeaderComponent } from './components/header/header.component';
 //import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 import { CurrencyFormatPipe } from './pipes/currency-format.pipe';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -21,12 +22,15 @@ import { CurrencyFormatPipe } from './pipes/currency-format.pipe';
     RouterModule,
      MatIconModule, 
     MatToolbarModule,
+    MatDialogModule,
     MatButtonModule,
   ],
   exports: [
     HeaderComponent,
     CurrencyFormatPipe,
     MatToolbarModule,
+    MatDialogModule,
+    MatIconModule,
     MatButtonModule,
   ]
 })

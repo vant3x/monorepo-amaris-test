@@ -43,9 +43,9 @@ export class SubscriptionsService {
       createSubscriptionDto.fundId,
     );
 
-    if (createSubscriptionDto.amount < fund.minimumAmount) {
+    if (createSubscriptionDto.amount < fund.minimum_amount) {
       throw new BadRequestException(
-        `Minimum amount for this fund is ${fund.minimumAmount}`,
+        `Minimum amount for this fund is ${fund.minimum_amount}`,
       );
     }
 
@@ -62,8 +62,8 @@ export class SubscriptionsService {
       createSubscriptionDto.amount,
       'active',
       new Date(),
-      createSubscriptionDto.notificationType,
-      createSubscriptionDto.notificationContact,
+      createSubscriptionDto.notification_type,
+      createSubscriptionDto.notification_contact,
     );
 
     const client = this.dynamoDBService.getClient();
@@ -89,7 +89,7 @@ export class SubscriptionsService {
   async cancelSubscription(id: string): Promise<Subscription> {
     const subscription = await this.getSubscriptionById(id);
     if (!subscription) {
-      throw new NotFoundException(`Subscription with ID ${id} not found`);
+      throw new NotFoundException(`La Subscripción con el ID ${id} no se encontró`);
     }
 
     const client = this.dynamoDBService.getClient();
@@ -112,7 +112,6 @@ export class SubscriptionsService {
         amount: subscription.amount,
         endDate,
       });
-    // Actualizar el objeto subscription antes de devolverlo
     subscription.status = 'canceled';
     subscription.endDate = endDate;
     return subscription;
@@ -144,13 +143,13 @@ export class SubscriptionsService {
   private mapToDbItem(subscription: Subscription): Record<string, any> {
     return {
       id: { S: subscription.id },
-      userId: { S: subscription.userId },
-      fundId: { S: subscription.fundId.toString() },
+      user_id: { S: subscription.user_id },
+      fund_id: { S: subscription.fund_id.toString() },
       amount: { N: subscription.amount.toString() },
       status: { S: subscription.status },
-      createdAt: { S: subscription.createdAt.toISOString() },
-      notificationType: { S: subscription.notificationType },
-      notificationContact: { S: subscription.notificationContact },
+      createdAt: { S: subscription.created_at.toISOString() },
+      notification_type: { S: subscription.notification_type },
+      notificationContact: { S: subscription.notification_contact },
       ...(subscription.endDate && { endDate: { S: subscription.endDate.toISOString() } }),
     };
   }
@@ -163,7 +162,7 @@ export class SubscriptionsService {
       parseInt(item.amount.N),
       item.status.S as 'active' | 'canceled',
       new Date(item.createdAt.S),
-      item.notificationType.S as 'sms' | 'email',
+      item.notification_type.S as 'sms' | 'email',
       item.notificationContact.S,
       item.endDate ? new Date(item.endDate.S) : undefined
     );

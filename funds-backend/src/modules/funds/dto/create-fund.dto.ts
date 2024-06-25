@@ -11,7 +11,7 @@ export class CreateFundDto {
 
   @IsNotEmpty()
   @IsNumber()
-  minimumAmount: number;
+  minimum_amount: number;
 
   @IsNotEmpty()
   @IsString()

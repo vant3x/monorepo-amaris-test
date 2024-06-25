@@ -1,13 +1,13 @@
 export class Subscription {
   constructor(
     public id: string,
-    public userId: string,
-    public fundId: string,
+    public user_id: string,
+    public fund_id: string,
     public amount: number,
     public status: 'active' | 'canceled',
-    public createdAt: Date,
-    public notificationType: 'sms' | 'email',
-    public notificationContact: string,
+    public created_at: Date,
+    public notification_type: 'sms' | 'email',
+    public notification_contact: string,
     public endDate?: Date
   ) {}
 }

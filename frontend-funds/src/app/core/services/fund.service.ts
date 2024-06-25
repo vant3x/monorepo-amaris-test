@@ -7,7 +7,7 @@ import { Fund } from '../models/fund.model';
   providedIn: 'root'
 })
 export class FundService {
-  private apiUrl = 'http://localhost:3000/api/v1/funds';
+  private apiUrl = 'http://localhost:8000/api/v1/funds';
 
   constructor(private http: HttpClient) {}
 

@@ -76,3 +76,83 @@ Thumbs.db
 # Miscellaneous
 *.swp
 *.swo
+
+# FastAPI / Python specific ignores
+/fastapi-funds/__pycache__/
+/fastapi-funds/*.py[cod]
+/fastapi-funds/*$py.class
+
+# Distribution / packaging
+/fastapi-funds/.Python
+/fastapi-funds/build/
+/fastapi-funds/develop-eggs/
+/fastapi-funds/dist/
+/fastapi-funds/downloads/
+/fastapi-funds/eggs/
+/fastapi-funds/.eggs/
+/fastapi-funds/lib/
+/fastapi-funds/lib64/
+/fastapi-funds/parts/
+/fastapi-funds/sdist/
+/fastapi-funds/var/
+/fastapi-funds/wheels/
+/fastapi-funds/pip-wheel-metadata/
+/fastapi-funds/share/python-wheels/
+/fastapi-funds/*.egg-info/
+/fastapi-funds/.installed.cfg
+/fastapi-funds/*.egg
+
+# PyInstaller
+/fastapi-funds/*.manifest
+/fastapi-funds/*.spec
+
+# Installer logs
+/fastapi-funds/pip-log.txt
+/fastapi-funds/pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+/fastapi-funds/htmlcov/
+/fastapi-funds/.tox/
+/fastapi-funds/.nox/
+/fastapi-funds/.coverage
+/fastapi-funds/.coverage.*
+/fastapi-funds/.cache
+/fastapi-funds/nosetests.xml
+/fastapi-funds/coverage.xml
+/fastapi-funds/*.cover
+/fastapi-funds/*.py,cover
+/fastapi-funds/.hypothesis/
+/fastapi-funds/.pytest_cache/
+
+# Environments
+/fastapi-funds/.env
+/fastapi-funds/.venv
+/fastapi-funds/env/
+/fastapi-funds/venv/
+/fastapi-funds/ENV/
+/fastapi-funds/env.bak/
+/fastapi-funds/venv.bak/
+
+# mypy
+/fastapi-funds/.mypy_cache/
+/fastapi-funds/.dmypy.json
+/fastapi-funds/dmypy.json
+
+# Pyre type checker
+/fastapi-funds/.pyre/
+
+# pytype static type analyzer
+/fastapi-funds/.pytype/
+
+# Cython debug symbols
+/fastapi-funds/cython_debug/
+
+# Database
+/fastapi-funds/*.sqlite3
+
+# FastAPI specific
+/fastapi-funds/fastapi.db
+
+# Alembic migrations (if you're using it)
+/fastapi-funds/alembic.ini
+/fastapi-funds/migrations/

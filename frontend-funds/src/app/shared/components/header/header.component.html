@@ -1,10 +1,15 @@
 
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>BTG Plataforma de Fondos</span>
+    <span class="flex-1"></span> <div class="flex justify-end items-center">
+     <a [routerLink]="['/']"><a mat-button >   <mat-icon aria-hidden="false" aria-label="home icon" fontIcon="home"></mat-icon> Inicio - Fondos </a></a> 
 
-  <mat-toolbar color="primary">
-    <mat-toolbar-row>
-        <span>BTG Plataforma de Fondos</span>
-        <span class="example-spacer"></span>
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-      </button>
-    </mat-toolbar-row>
+     <a [routerLink]="['/transactions']"><a mat-button > Transacciones </a></a> 
+    </div>
+
+    <button mat-icon-button class="example-icon" aria-label="Menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>

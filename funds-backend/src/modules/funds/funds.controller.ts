@@ -18,7 +18,7 @@ export class FundsController {
   async getFund(@Param('id') id: string): Promise<Fund> {
     const fund = await this.fundsService.getFundById(id);
     if (!fund) {
-      throw new NotFoundException(`Fund with ID ${id} not found`);
+      throw new NotFoundException(`El fondo con el ${id} no se encontró`);
     }
     return fund;
   }

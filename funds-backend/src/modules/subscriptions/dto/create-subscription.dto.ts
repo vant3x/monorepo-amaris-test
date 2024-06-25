@@ -18,9 +18,9 @@ export class CreateSubscriptionDto {
 
   @IsNotEmpty()
   @IsEnum(['sms', 'email'])
-  notificationType: 'sms' | 'email';
+  notification_type: 'sms' | 'email';
 
   @IsNotEmpty()
   @IsString()
-  notificationContact: string;
+  notification_contact: string;
 }

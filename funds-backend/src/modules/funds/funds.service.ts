@@ -18,7 +18,7 @@ export class FundsService {
     const fund = new Fund(
       newFundId,
       createFundDto.name,
-      createFundDto.minimumAmount,
+      createFundDto.minimum_amount,
       createFundDto.category
     );
 
@@ -41,7 +41,7 @@ export class FundsService {
 
     const result = await client.send(command);
     if (!result.Item) {
-      throw new NotFoundException(`Fund with ID ${id} not found`);
+      throw new NotFoundException(`El fondo con el ${id} no se encontró`);
     }
     return this.mapToDomain(result.Item);
   }
@@ -58,7 +58,7 @@ export class FundsService {
     return {
       id: { S: fund.id.toString() },
       name: { S: fund.name },
-      minimumAmount: { N: fund.minimumAmount.toString() },
+      minimum_amount: { N: fund.minimum_amount.toString() },
       category: { S: fund.category },
     };
   }
@@ -67,7 +67,7 @@ export class FundsService {
     return new Fund(
       item.id.S,
       item.name.S,
-      parseInt(item.minimumAmount.N),
+      parseInt(item.minimum_amount.N),
       item.category.S
     );
   }

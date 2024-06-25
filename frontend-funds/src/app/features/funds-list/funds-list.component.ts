@@ -1,6 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+
 import { Fund } from 'src/app/core/models/fund.model';
 import { Subscription } from 'src/app/core/models/subscription.model';
+import { SubscriptionFund } from 'src/app/core/models/suscriptionFund.model';
 import { Transaction } from 'src/app/core/models/transaction.model';
 import { FundService } from 'src/app/core/services/fund.service';
 import { SubscriptionService } from 'src/app/core/services/subscription.service';
@@ -15,7 +18,7 @@ import { forkJoin } from 'rxjs';
 export class FundsListComponent implements OnInit {
   userId: string = '';
   userBalance: string = '500000';
-  funds: Fund[] = [];
+  funds: SubscriptionFund[] = [];
   subscriptions: Subscription[] = [];
   transactions: (Transaction & { fundName?: string })[] = [];
   latestTransactions: (Transaction & { fundName?: string })[] = []; 
@@ -41,8 +44,11 @@ export class FundsListComponent implements OnInit {
       transactions: this.transactionsService.getTransactions(this.userId)
     }).subscribe(
       ({ funds, subscriptions, transactions }) => {
-        this.funds = funds;
-        this.subscriptions = subscriptions;
+        this.funds = funds.map(fund => ({
+          ...fund,
+          isSubscribed: subscriptions.some(sub => sub.fundId === fund.id && sub.status === 'active'),
+          subscription: subscriptions.find(sub => sub.fundId === fund.id && sub.status === 'active')
+        }));        this.subscriptions = subscriptions;
         this.transactions = transactions.map(transaction => ({
           ...transaction,
           fundName: this.getFundName(transaction.fundId)
@@ -60,7 +66,11 @@ export class FundsListComponent implements OnInit {
   loadFunds(): void {
     this.fundService.getAllFunds().subscribe(
       (funds) => {
-        this.funds = funds;
+        this.funds = funds.map(fund => ({
+          ...fund,
+          isSubscribed: false,
+          subscription: undefined
+        })) as SubscriptionFund[];
       },
       (error) => {
         console.error('Error loading funds:', error);

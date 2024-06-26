@@ -40,7 +40,7 @@ export class SubscriptionsService {
     createSubscriptionDto: CreateSubscriptionDto,
   ): Promise<Subscription> {
     const fund = await this.fundsService.getFundById(
-      createSubscriptionDto.fundId,
+      createSubscriptionDto.fund_id,
     );
 
     if (createSubscriptionDto.amount < fund.minimum_amount) {
@@ -57,8 +57,8 @@ export class SubscriptionsService {
 
     const subscription = new Subscription(
       randomUUID(),
-      createSubscriptionDto.userId,
-      createSubscriptionDto.fundId,
+      createSubscriptionDto.user_id,
+      createSubscriptionDto.fund_id,
       createSubscriptionDto.amount,
       'active',
       new Date(),
@@ -121,9 +121,9 @@ export class SubscriptionsService {
     const client = this.dynamoDBService.getClient();
     const command = new ScanCommand({
       TableName: this.tableName,
-      FilterExpression: 'userId = :userId',
+      FilterExpression: 'user_id = :user_id',
       ExpressionAttributeValues: {
-        ':userId': { S: userId },
+        ':user_id': { S: userId },
       },
     });
     const result = await client.send(command);
@@ -149,21 +149,25 @@ export class SubscriptionsService {
       status: { S: subscription.status },
       created_at: { S: subscription.created_at.toISOString() },
       notification_type: { S: subscription.notification_type },
-      notificationContact: { S: subscription.notification_contact },
+      notification_contact: { S: subscription.notification_contact },
       ...(subscription.endDate && { endDate: { S: subscription.endDate.toISOString() } }),
     };
   }
 
-  private mapToDomain(item: Record<string, any>): Subscription {
+  private mapToDomain(item: Record<string, any>): Subscription | null {
+    if (!item || !item.id || !item.user_id || !item.fund_id || !item.amount || !item.status || !item.created_at) {
+      return null;
+    }
+  
     return new Subscription(
       item.id.S,
-      item.userId.S,
-      item.fundId.S,
+      item.user_id.S,
+      item.fund_id.S,
       parseInt(item.amount.N),
       item.status.S as 'active' | 'canceled',
       new Date(item.created_at.S),
-      item.notification_type.S as 'sms' | 'email',
-      item.notificationContact.S,
+      item.notification_type?.S as 'sms' | 'email',
+      item.notification_contact?.S,
       item.endDate ? new Date(item.endDate.S) : undefined
     );
   }

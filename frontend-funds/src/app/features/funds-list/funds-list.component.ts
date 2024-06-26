@@ -48,12 +48,23 @@ export class FundsListComponent implements OnInit {
           ...fund,
           isSubscribed: subscriptions.some(sub => sub.fund_id === fund.id && sub.status === 'active'),
           subscription: subscriptions.find(sub => sub.fund_id === fund.id && sub.status === 'active')
-        }));        this.subscriptions = subscriptions;
+        }));
+  
+        this.subscriptions = subscriptions;
         this.transactions = transactions.map(transaction => ({
           ...transaction,
-          fundName: this.getFundName(transaction.fundId)
+          fundName: this.getFundName(transaction.fund_id)
         }));
+  
+
+        this.transactions.sort((a, b) => {
+          const dateA: Date = new Date(a.created_at);
+          const dateB: Date = new Date(b.created_at);
+          return dateB.getTime() - dateA.getTime(); 
+        });
+
         this.latestTransactions = this.transactions.slice(0, 3); 
+        this.updateUserBalance();
 
         this.cdr.detectChanges(); 
       },
@@ -63,7 +74,15 @@ export class FundsListComponent implements OnInit {
     );
   }
 
-  loadFunds(): void {
+  updateUserBalance(): void {
+    this.userBalance = localStorage.getItem('userBalance') ?? '500000';
+  }
+
+  onSubscriptionChanged(): void {
+    this.loadAllData();
+  }
+
+ /* loadFunds(): void {
     this.fundService.getAllFunds().subscribe(
       (funds) => {
         this.funds = funds.map(fund => ({
@@ -77,7 +96,7 @@ export class FundsListComponent implements OnInit {
       }
     );
   }
-
+*/
   loadSubscriptions() {
     this.subscriptionService.getSubscriptionsByUser(this.userId).subscribe(
       (subscriptions) => {
@@ -89,22 +108,19 @@ export class FundsListComponent implements OnInit {
     );
   }
 
-  loadTransactions(): void {
-    this.transactionsService.getTransactions(this.userId).subscribe(
-      (data) => {
-        this.transactions = data.map(transaction => ({
-          ...transaction,
-          fundName: this.getFundName(transaction.fundId)
-        }));
-      },
-      (error) => {
-        console.error('Error fetching transactions:', error);
-      }
-    );
-  }
 
   getFundName(fundId: string): string {
+    if (!this.funds || this.funds.length === 0) {
+      console.warn('La lista de fondos está vacía');
+      return `Fondo ${fundId}`;
+    }
+  
     const fund = this.funds.find(f => f.id === fundId);
-    return fund ? fund.name : 'Fondo desconocido';
+    if (!fund) {
+      console.warn(`No se encontró el fondo con ID: ${fundId}`);
+      return `Fondo desconocido`;
+    }
+  
+    return fund.name;
   }
 }

@@ -1,4 +1,4 @@
-    SELECT DISTINCT c.nombre 
+SELECT DISTINCT c.nombre 
 FROM Cliente c
 INNER JOIN Inscripcion i ON c.id = i.idCliente
 INNER JOIN Producto p ON i.idProducto = p.id

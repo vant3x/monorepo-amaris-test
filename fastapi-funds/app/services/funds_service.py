@@ -14,7 +14,7 @@ class FundService:
         item = {
             'id': {'S': fund_id},
             'name': {'S': fund.name},
-            'minimumAmount': {'N': str(fund.minimum_amount)},
+            'minimum_amount': {'N': str(fund.minimum_amount)},
             'category': {'S': fund.category}
         }
         
@@ -39,7 +39,7 @@ class FundService:
         return Fund(
             id=item['id']['S'],
             name=item['name']['S'],
-            minimum_amount=float(item['minimumAmount']['N']),
+            minimum_amount=float(item['minimum_amount']['N']),
             category=item['category']['S']
         )
 
@@ -54,7 +54,7 @@ class FundService:
             funds.append(Fund(
                 id=item['id']['S'],
                 name=item['name']['S'],
-                minimum_amount=float(item['minimumAmount']['N']),
+                minimum_amount=float(item['minimum_amount']['N']),
                 category=item['category']['S']
             ))
         

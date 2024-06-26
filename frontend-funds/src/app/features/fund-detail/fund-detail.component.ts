@@ -61,6 +61,11 @@ export class FundDetailComponent {
       return;
     }
 
+    if (!this.notification_contact.trim()) {
+      this.errorMessage = 'Por favor, ingrese un dato de contacto para las notificaciones';
+      return;
+    }
+
     const userBalance = parseFloat(
       localStorage.getItem('userBalance') || '500000'
     );
@@ -80,12 +85,14 @@ export class FundDetailComponent {
       .subscribe(
         (newSubscription) => {
           this.subscription = newSubscription;
-          this.subscriptionChanged.emit();
           this.showSubscriptionForm = false;
           this.successMessage = 'Suscripción creada exitosamente';
 
           const newBalance = userBalance - this.subscriptionAmount;
           localStorage.setItem('userBalance', newBalance.toString());
+
+          this.subscriptionChanged.emit();
+
         },
         (error) => {
           console.error('Error creating subscription:', error);
@@ -107,10 +114,11 @@ export class FundDetailComponent {
             localStorage.setItem('userBalance', newBalance.toString());
 
             this.subscription = undefined;
-            this.subscriptionChanged.emit();
 
             this.successMessage = 'Suscripción cancelada exitosamente';
             this.errorMessage = '';
+            this.subscriptionChanged.emit();
+
           },
           (error) => {
             console.error('Error canceling subscription:', error);

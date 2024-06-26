@@ -21,7 +21,7 @@ Resources:
       AttributeDefinitions:
         - AttributeName: id
           AttributeType: S
-        - AttributeName: userId
+        - AttributeName: user_id
           AttributeType: S
       KeySchema:
         - AttributeName: id
@@ -29,7 +29,7 @@ Resources:
       GlobalSecondaryIndexes:
         - IndexName: UserIdIndex
           KeySchema:
-            - AttributeName: userId
+            - AttributeName: user_id
               KeyType: HASH
           Projection:
             ProjectionType: ALL
@@ -42,9 +42,9 @@ Resources:
       AttributeDefinitions:
         - AttributeName: id
           AttributeType: S
-        - AttributeName: userId
+        - AttributeName: user_id
           AttributeType: S
-        - AttributeName: createdAt
+        - AttributeName: created_at
           AttributeType: S
       KeySchema:
         - AttributeName: id
@@ -52,9 +52,9 @@ Resources:
       GlobalSecondaryIndexes:
         - IndexName: UserIdCreatedAtIndex
           KeySchema:
-            - AttributeName: userId
+            - AttributeName: user_id
               KeyType: HASH
-            - AttributeName: createdAt
+            - AttributeName: created_at
               KeyType: RANGE
           Projection:
             ProjectionType: ALL
@@ -62,17 +62,17 @@ Resources:
 
 Outputs:
   FundsTableName:
-    Description: 'Name of the Funds DynamoDB table'
+    Description: ''
     Value: !Ref FundsTable
     Export:
       Name: FundsTableName
   SubscriptionsTableName:
-    Description: 'Name of the Subscriptions DynamoDB table'
+    Description: ''
     Value: !Ref SubscriptionsTable
     Export:
       Name: SubscriptionsTableName
   TransactionsTableName:
-    Description: 'Name of the Transactions DynamoDB table'
+    Description: ''
     Value: !Ref TransactionsTable
     Export:
       Name: TransactionsTableName

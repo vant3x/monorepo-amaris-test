@@ -42,7 +42,7 @@ export class TransactionHistoryComponent implements AfterViewInit {
       (data) => {
         this.dataSource.data = data.map(transaction => ({
           ...transaction,
-          fundName: this.getFundName(transaction.fundId)
+          fundName: this.getFundName(transaction.fund_id)
         }));
       },
       (error) => {

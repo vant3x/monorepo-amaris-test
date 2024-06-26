@@ -65,10 +65,10 @@ export class FundsService {
 
   private mapToDomain(item: Record<string, any>): Fund {
     return new Fund(
-      item.id.S,
-      item.name.S,
-      parseInt(item.minimum_amount.N),
-      item.category.S
+      item.id?.S ?? '',
+      item.name?.S ?? '',
+      item.minimum_amount?.N ? parseInt(item.minimum_amount.N) : 0,
+      item.category?.S ?? ''
     );
   }
 }

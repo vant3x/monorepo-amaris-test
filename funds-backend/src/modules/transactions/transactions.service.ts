@@ -34,8 +34,8 @@ export class TransactionsService {
     const client = this.dynamoDBService.getClient();
     const command = new ScanCommand({
       TableName: this.tableName,
-      FilterExpression: 'userId = :userId',
-      ExpressionAttributeValues: { ':userId': { S: userId } },
+      FilterExpression: 'user_id = :user_id',
+      ExpressionAttributeValues: { ':user_id': { S: userId } },
     });
     
     const result = await client.send(command);
@@ -45,8 +45,8 @@ export class TransactionsService {
   private mapToDbItem(transaction: Transaction): Record<string, any> {
     return {
       id: { S: transaction.id },
-      userId: { S: transaction.user_id },
-      fundId: { S: transaction.fund_id },
+      user_id: { S: transaction.user_id },
+      fund_id: { S: transaction.fund_id },
       type: { S: transaction.type },
       amount: { N: transaction.amount.toString() },
       created_at: { S: transaction.created_at.toISOString() },

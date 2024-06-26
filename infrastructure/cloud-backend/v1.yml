@@ -60,6 +60,71 @@ Resources:
             ProjectionType: ALL
       BillingMode: PAY_PER_REQUEST
 
+  PopulateFundsTableFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Code:
+        ZipFile: |
+          import boto3
+          import cfnresponse
+          import uuid
+
+          def handler(event, context):
+            if event['RequestType'] == 'Create':
+              dynamodb = boto3.resource('dynamodb')
+              table = dynamodb.Table(event['ResourceProperties']['TableName'])
+              
+              items = [
+                {'name': 'FPV_BTG_PACTUAL_RECAUDADORA', 'minimum_amount': 75000, 'category': 'FPV'},
+                {'name': 'FPV_BTG_PACTUAL_ECOPETROL', 'minimum_amount': 125000, 'category': 'FPV'},
+                {'name': 'DEUDAPRIVADA', 'minimum_amount': 50000, 'category': 'FIC'},
+                {'name': 'FDO-ACCIONES', 'minimum_amount': 250000, 'category': 'FIC'},
+                {'name': 'FPV_BTG_PACTUAL_DINAMICA', 'minimum_amount': 100000, 'category': 'FPV'}
+              ]
+              
+              with table.batch_writer() as batch:
+                for item in items:
+                  item['id'] = str(uuid.uuid4())
+                  batch.put_item(Item=item)
+            
+            cfnresponse.send(event, context, cfnresponse.SUCCESS, {})
+
+      Runtime: python3.8
+      Timeout: 60
+
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: DynamoDBAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow
+              Action:
+              - dynamodb:PutItem
+              - dynamodb:BatchWriteItem
+              Resource: !GetAtt FundsTable.Arn
+
+  PopulateFundsTable:
+    Type: Custom::PopulateFundsTable
+    Properties:
+      ServiceToken: !GetAtt PopulateFundsTableFunction.Arn
+      TableName: !Ref FundsTable
+
 Outputs:
   FundsTableName:
     Description: ''

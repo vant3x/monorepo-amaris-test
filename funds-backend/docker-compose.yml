@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend-funds
+      dockerfile: Dockerfile.dev # Crea un Dockerfile.dev para el desarrollo del frontend
+    ports:
+      - 4200:4200
+    volumes:
+      - ./frontend-funds:/app
+      - /app/node_modules # Evita reconstruir node_modules en el contenedor
+
+  backend:
+    build: 
+      context: ./funds-backend 
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      - AWS_REGION
+    depends_on:
+      - frontend

@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.v1.endpoints import funds, subscriptions, notifications, transactions
@@ -5,8 +6,12 @@ from app.api.v1.endpoints import funds, subscriptions, notifications, transactio
 
 app = FastAPI(title="Funds API")
 
+frontend_url = os.getenv("FRONTEND_URL")
+
+
 origins = [
     "http://localhost:4200",
+    frontend_url
 ]
 
 app.add_middleware(

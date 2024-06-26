@@ -1,23 +1,16 @@
 version: '3.8'
 
 services:
-  frontend:
-    build:
-      context: ./frontend-funds
-      dockerfile: Dockerfile.dev # Crea un Dockerfile.dev para el desarrollo del frontend
+  web:
+    build: .
     ports:
-      - 4200:4200
-    volumes:
-      - ./frontend-funds:/app
-      - /app/node_modules # Evita reconstruir node_modules en el contenedor
-
-  backend:
-    build: 
-      context: ./funds-backend 
-      dockerfile: Dockerfile
-    ports:
-      - 3000:3000
+      - "8000:8000"
     environment:
-      - AWS_REGION
-    depends_on:
-      - frontend
+      - AWS_ACCESS_KEY_ID=dummy
+      - AWS_SECRET_ACCESS_KEY=dummy
+      - AWS_DEFAULT_REGION=us-east-1
+      - TWILIO_ACCOUNT_SID=
+      - TWILIO_AUTH_TOKEN=
+      - TWILIO_PHONE_NUMBER=
+      - FRONTEND_URL=
+volumes:

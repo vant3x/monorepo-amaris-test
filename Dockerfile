@@ -1,22 +1,22 @@
-# Etapa de construcción
-FROM node:18-alpine AS builder
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
 
-WORKDIR /app/backend
+# Set the working directory in the container
+WORKDIR /app
 
-COPY apps/backend/package*.json ./
+# Copy the current directory contents into the container at /app
+COPY . /app
 
-RUN npm install
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r /fastapi-funds/requirements.txt
 
-COPY apps/backend .
+# Make port 8000 available to the world outside this container
+EXPOSE 8000
 
-RUN npm run build
+# Define environment variable
+ENV MODULE_NAME=main
+ENV VARIABLE_NAME=app
+ENV PORT=8000
 
-# Etapa de producción
-FROM node:18-alpine
-
-WORKDIR /app/backend
-
-COPY --from=builder /app/backend/dist ./dist
-COPY --from=builder /app/backend/node_modules ./node_modules
-
-CMD ["node", "dist/main"]
+# Run app.py when the container launches
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

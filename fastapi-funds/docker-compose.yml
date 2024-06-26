@@ -8,19 +8,9 @@ services:
     environment:
       - AWS_ACCESS_KEY_ID=dummy
       - AWS_SECRET_ACCESS_KEY=dummy
-      - AWS_DEFAULT_REGION=us-west-2
-      - DYNAMODB_ENDPOINT=http://dynamodb-local:8000
-    depends_on:
-      - dynamodb-local
-
-  dynamodb-local:
-    image: amazon/dynamodb-local
-    ports:
-      - "8000:8000"
-    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-dbPath", "./data"]
-    volumes:
-      - ./docker/dynamodb:/home/dynamodblocal/data
-    working_dir: /home/dynamodblocal
-
+      - AWS_DEFAULT_REGION=us-east-1
+      - TWILIO_ACCOUNT_SID=
+      - TWILIO_AUTH_TOKEN=
+      - TWILIO_PHONE_NUMBER=
+      - FRONTEND_URL=
 volumes:
-  dynamodb_data:

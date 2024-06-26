@@ -1,16 +1,17 @@
-# Mi Proyecto Monorepo Angular/NestJS con DynamoDB
+# Mi Proyecto Monorepo Angular NestJS/FastAPI con DynamoDB
 
 ## Requisitos Previos
 
 - Docker y Docker Compose
 - Node.js y npm
-- AWS CLI (si despliegas en AWS)
+- Python 3
+- AWS CLI 
 
 ## Configuración
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone <URL_DEL_REPOSITORIO>  
+   git clone https://github.com/vant3x/monorepo-amaris-test.git    
 
 
 Bash
@@ -24,7 +25,10 @@ docker-compose up --build
 
 Frontend: http://localhost:4200
 
-Backend: http://localhost:3000
+Backend Nest: http://localhost:3000
+
+Backend FastAPI: http://localhost:8000
+
 
 Desplegar en AWS (CloudFormation)
 
